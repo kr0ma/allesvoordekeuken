@@ -31,6 +31,12 @@
 			
 			<dt>Winst marge (in %)</dt>
 			<dd><fmt:formatNumber value='${artikel.winstPercentage}' /></dd>
+			<ul>
+			<c:forEach var="korting" items="${artikel.kortingen}">
+				<li>${korting.vanafAantal} ${korting.kortingsPercentage} </li>
+			</c:forEach>
+			</ul>
+			
 		</dl>		
 	</c:if>
 </body>
