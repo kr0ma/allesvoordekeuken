@@ -22,7 +22,7 @@ public class IndexServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("lolzies");
+		
 		request.setAttribute("random", 1 + random.nextInt(4));
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
