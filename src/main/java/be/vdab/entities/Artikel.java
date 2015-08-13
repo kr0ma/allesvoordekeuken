@@ -10,11 +10,13 @@ import javax.persistence.CollectionTable;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
@@ -33,16 +35,21 @@ public abstract class Artikel implements Serializable {
 	private String naam;
 	private BigDecimal aankoopprijs;
 	private BigDecimal verkoopprijs;
-	
+
 	@ElementCollection
 	@CollectionTable(name = "kortingen", joinColumns = @JoinColumn(name = "artikelid"))
 	@OrderBy("vanafAantal")
 	private Set<Korting> kortingen;
 
-	public Artikel(String naam, BigDecimal aankoopprijs, BigDecimal verkoopprijs) {
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "artikelgroepid")
+	private Artikelgroep artikelgroep;
+
+	public Artikel(String naam, BigDecimal aankoopprijs, BigDecimal verkoopprijs, Artikelgroep artikelgroep) {
 		setNaam(naam);
 		setAankoopprijs(aankoopprijs);
 		setVerkoopprijs(verkoopprijs);
+		setArtikelgroep(artikelgroep);
 	}
 
 	protected Artikel() {
@@ -109,6 +116,35 @@ public abstract class Artikel implements Serializable {
 
 	public Set<Korting> getKortingen() {
 		return Collections.unmodifiableSet(kortingen);
+	}
+
+	public Artikelgroep getArtikelgroep() {
+		return artikelgroep;
+	}
+
+	public void setArtikelgroep(Artikelgroep artikelgroep) {
+		if (this.artikelgroep != null
+				&& this.artikelgroep.getArtikels().contains(this)) {
+			this.artikelgroep.removeArtikel(this);
+		}
+		this.artikelgroep = artikelgroep;
+		if (artikelgroep != null && !artikelgroep.getArtikels().contains(this)) {
+			artikelgroep.addArtikel(this);
+		}
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof Artikel)) {
+			return false;
+		}
+		Artikel anderArtikel = (Artikel) object;
+		return naam.equalsIgnoreCase(anderArtikel.naam);
+	}
+
+	@Override
+	public int hashCode() {
+		return naam.toUpperCase().hashCode();
 	}
 
 }

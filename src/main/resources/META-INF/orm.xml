@@ -15,4 +15,10 @@ http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd"
 			set a.verkoopprijs = a.verkoopprijs * :factor
 		</query>
 	</named-query>
+	<named-query name='Artikelgroep.findAll'>
+		<query>
+			select g from Artikelgroep g order by g.naam
+		</query>
+	</named-query>
+	
 </entity-mappings>
