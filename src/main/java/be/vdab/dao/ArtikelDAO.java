@@ -23,5 +23,11 @@ public class ArtikelDAO extends AbstractDAO {
 	public void algemeneOpslag(BigDecimal factor) {
 		getEntityManager().createNamedQuery("Artikel.algemeneOpslag").setParameter("factor", factor).executeUpdate();
 	}
+	
+	public List<Artikel> findAllWithGroup(){
+		return getEntityManager().createNamedQuery("Artikel.findAll",Artikel.class)
+			.setHint("javax.persistence.loadgraph", getEntityManager().createEntityGraph("Artikel.metArtikelgroepNaam"))
+			.getResultList();
+	}
 
 }

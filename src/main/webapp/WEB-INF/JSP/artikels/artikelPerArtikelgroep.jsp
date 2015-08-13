@@ -49,5 +49,25 @@ td:nth-child(2) {
 			</tbody>
 		</table>
 	</c:if>
+	
+	<c:if test="${not empty artikels}">
+		<h2>Artikels</h2>
+		<table>
+			<thead>
+				<tr>					
+					<th>Naam</th>
+					<th>Artikelgroep</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${artikels}" var="artikel">
+					<tr>						
+						<td>${artikel.naam}</td>						
+						<td>${artikel.artikelgroep.naam} </td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>	
+	</c:if>
 </body>
 </html>

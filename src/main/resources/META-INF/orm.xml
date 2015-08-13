@@ -19,6 +19,10 @@ http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd"
 		<query>
 			select g from Artikelgroep g order by g.naam
 		</query>
-	</named-query>
-	
+	</named-query>	
+	<named-query name='Artikel.findAll'>
+		<query>
+			select g from Artikel g order by g.naam
+		</query>
+	</named-query>	
 </entity-mappings>

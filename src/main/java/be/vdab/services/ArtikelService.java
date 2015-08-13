@@ -30,5 +30,9 @@ public class ArtikelService {
 		artikelDAO.algemeneOpslag(factor);
 		artikelDAO.commit();
 	}
+	
+	public List<Artikel> findAllWithGroup(){
+		return artikelDAO.findAllWithGroup();
+	}
 
 }

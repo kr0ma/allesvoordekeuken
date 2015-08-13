@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import be.vdab.services.ArtikelService;
 import be.vdab.services.ArtikelgroepService;
 
 /**
@@ -18,6 +19,7 @@ public class ArtikelPerArtikelgroepServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private static final String VIEW = "/WEB-INF/JSP/artikels/artikelPerArtikelgroep.jsp";
+	private final transient ArtikelService artikelService = new ArtikelService();
 	private final transient ArtikelgroepService artikelgroepService = new ArtikelgroepService();
 	
 	/**
@@ -29,6 +31,8 @@ public class ArtikelPerArtikelgroepServlet extends HttpServlet {
 		if (id != null) {
 			request.setAttribute("artikelgroep",
 					artikelgroepService.read(Long.parseLong(id)));			
+		}else {
+			request.setAttribute("artikels", artikelService.findAllWithGroup());
 		}
 		request.getRequestDispatcher(VIEW).forward(request, response);
 	}
